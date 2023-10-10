@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public int health = 3;
+
     [SerializeField]
     private Rigidbody2D rb;
 
