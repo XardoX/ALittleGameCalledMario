@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
         {
             ResetLevel();
         }
+        Debug.Log(player.health);
         uIManager.SetHearths(player.health);
 
     }
@@ -42,5 +44,10 @@ public class GameManager : MonoBehaviour
     public void ResetLevel()
     {
         SceneManager.LoadSceneAsync("Main");
+    }
+
+    public void SetSpawnpoint(Transform spawnPoint)
+    {
+        this.spawnPoint = spawnPoint;
     }
 }

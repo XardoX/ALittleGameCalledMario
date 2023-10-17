@@ -13,18 +13,34 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private SpriteRenderer spriteRenderer;
 
+    [SerializeField]
     private Vector3 moveDirection = Vector2.right;
+
+    private void Awake()
+    {
+        FlipSprite();
+    }
 
     private void Update()
     {
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
 
-        if(Physics2D.Raycast(transform.position, moveDirection,rayDistance,layerMask))
+        if(Physics2D.Raycast(transform.position, moveDirection))
+        {
+
+        }
+        if (Physics2D.Raycast(transform.position, moveDirection, rayDistance,layerMask))
         {
             moveDirection *= -1;
 
-            spriteRenderer.flipX = moveDirection.x > 0 ? true : false;
+            FlipSprite();
         }
+    }
+
+    private void FlipSprite()
+    {
+        spriteRenderer.flipX = moveDirection.x > 0 ? true : false;
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
