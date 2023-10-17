@@ -17,8 +17,10 @@ public class UIManager : MonoBehaviour
 
         for(int i = 0; i < hearths.Count && i < count; i++)
         {
+
             hearths[i].gameObject.SetActive(true);
         }
-        
+
+
     }
 }

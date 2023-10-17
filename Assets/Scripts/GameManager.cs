@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private Transform spawnPoint;
+
+    [SerializeField]
+    private UIManager uIManager;
 
     private void Awake()
     {
@@ -27,5 +31,16 @@ public class GameManager : MonoBehaviour
     {
         player.transform.position = spawnPoint.position;
         player.health--;
+        if(player.health <= 0)
+        {
+            ResetLevel();
+        }
+        uIManager.SetHearths(player.health);
+
+    }
+
+    public void ResetLevel()
+    {
+        SceneManager.LoadSceneAsync("Main");
     }
 }
