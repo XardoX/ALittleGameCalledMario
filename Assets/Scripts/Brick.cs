@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Brick : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private Animator animator;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField]
+    private Collider2D coll;
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if(collision.collider.CompareTag("Player"))
+        {
+            if(collision.collider.transform.position.y < transform.position.y - coll.bounds.extents.y)
+            {
+                animator.SetTrigger("Hit");
+
+            }
+        }
     }
 }
