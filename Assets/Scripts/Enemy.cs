@@ -25,10 +25,6 @@ public class Enemy : MonoBehaviour
     {
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
 
-        if(Physics2D.Raycast(transform.position, moveDirection))
-        {
-
-        }
         if (Physics2D.Raycast(transform.position, moveDirection, rayDistance,layerMask))
         {
             moveDirection *= -1;

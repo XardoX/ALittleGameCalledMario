@@ -10,13 +10,22 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
 
     [SerializeField]
-    private float moveSpeed = 5f, airSpeed = 2f;
+    private Animator animator;
+
+    [SerializeField] 
+    private SpriteRenderer spriteRenderer;
+
     [SerializeField]
-    private float jumpPower = 10f;
+    private float moveSpeed = 5f, 
+        airSpeed = 2f,
+        jumpPower = 10f,
+        additionalGravity = 5f;
+
     [SerializeField]
     private LayerMask groundMask;
 
-    private bool isGrounded;
+    [SerializeField]
+    private bool isGrounded, isFalling;
 
     private float inputX;
 
@@ -24,6 +33,9 @@ public class Player : MonoBehaviour
     void Update()
     {
         isGrounded = CheckIfOnGround();
+        isFalling = CheckIfIsFalling();
+
+
 
         if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
@@ -32,6 +44,7 @@ public class Player : MonoBehaviour
 
         inputX = Input.GetAxis("Horizontal");
 
+        SetGraphics();
     }
 
     private void FixedUpdate()
@@ -40,7 +53,7 @@ public class Player : MonoBehaviour
         var speed = isGrounded ? moveSpeed : airSpeed;
         rb.velocity = new Vector2(inputX * speed , rb.velocity.y);
 
-
+        AddtionalGravity();
     }
 
     private void Jump()
@@ -48,9 +61,32 @@ public class Player : MonoBehaviour
         rb.AddForce(transform.up * jumpPower, ForceMode2D.Impulse);
     }
 
+    private void AddtionalGravity()
+    {
+        if(isFalling)
+        {
+            rb.AddForce(Vector2.down * additionalGravity);
+        }
+    }
+
+    private void SetGraphics()
+    {
+        animator.SetBool("IsFalling", isFalling);
+        animator.SetBool("IsMoving", rb.velocity.magnitude > 0.1f);
+        animator.SetBool("IsJumping", rb.velocity.y > 0.1f);
+
+        spriteRenderer.flipX = rb.velocity.x < 0;
+    }
+
     private bool CheckIfOnGround()
     {
         var grounded = Physics2D.Raycast(transform.position - Vector3.up, Vector3.down, 0.5f, groundMask);
         return grounded;
     }
+
+    private bool CheckIfIsFalling()
+    {
+        return rb.velocity.y < -0.2f;
+    }
+
 }
