@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class Player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     [SerializeField]
+    private ParticleSystem jumpParticle;
+
+    [SerializeField]
     private float moveSpeed = 5f, 
         airSpeed = 2f,
         jumpPower = 10f,
@@ -25,7 +29,20 @@ public class Player : MonoBehaviour
     private LayerMask groundMask;
 
     [SerializeField]
+    private float groundRayDistance = 0.2f;
+
+    [SerializeField]
     private bool isGrounded, isFalling;
+
+    [SerializeField]
+    private Vector2 jumpStretchScale = new Vector3(0.9f, 1.3f, 1f),
+        jumpSqueezeScale = new Vector3(1.3f, 0.6f, 1f);
+
+    [SerializeField]
+    private float jumpStretchDuration = 0.2f,
+        jumpSqueezeDuration = 0.1f;
+
+    private bool lastFrameIsGrounded;
 
     private float inputX;
 
@@ -56,9 +73,16 @@ public class Player : MonoBehaviour
         AddtionalGravity();
     }
 
+    private void LateUpdate()
+    {
+        lastFrameIsGrounded = isGrounded;
+    }
+
     private void Jump()
     {
         rb.AddForce(transform.up * jumpPower, ForceMode2D.Impulse);
+        jumpParticle.Play();
+        transform.DOScale(jumpStretchScale, jumpStretchDuration).SetEase(Ease.OutQuint);
     }
 
     private void AddtionalGravity()
@@ -80,7 +104,19 @@ public class Player : MonoBehaviour
 
     private bool CheckIfOnGround()
     {
-        var grounded = Physics2D.Raycast(transform.position - Vector3.up, Vector3.down, 0.5f, groundMask);
+        var grounded = Physics2D.Raycast(transform.position - Vector3.up, Vector3.down, groundRayDistance, groundMask);
+
+        if(grounded && lastFrameIsGrounded == false) //pierwsza klatka na ziemi
+        {
+            Debug.Log("First Frame On ground");
+            transform.DOScale(jumpSqueezeScale, jumpSqueezeDuration).SetEase(Ease.OutQuint)
+                .OnComplete(() => transform.DOScale(1f, 0.15f)).SetEase(Ease.OutQuint);
+        }
+        else if(grounded == false && lastFrameIsGrounded) //pierwsza klatka w powietrzu
+        {
+            Debug.Log("First Frame in air");
+
+        }
         return grounded;
     }
 
