@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -64,11 +64,16 @@ public class Player : MonoBehaviour
         SetGraphics();
     }
 
+
     private void FixedUpdate()
     {
-
         var speed = isGrounded ? moveSpeed : airSpeed;
-        rb.velocity = new Vector2(inputX * speed , rb.velocity.y);
+        Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector2(inputX, 0f), Color.red);
+        if(!Physics2D.CircleCast(transform.position + Vector3.up *  0.5f, .5f, new Vector2( inputX, 0f ), 0.25f, groundMask)) //gracz nie dotyka ściany 
+        {
+                rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
+
+        }
 
         AddtionalGravity();
     }
@@ -82,7 +87,7 @@ public class Player : MonoBehaviour
     {
         rb.AddForce(transform.up * jumpPower, ForceMode2D.Impulse);
         jumpParticle.Play();
-        transform.DOScale(jumpStretchScale, jumpStretchDuration).SetEase(Ease.OutQuint);
+        spriteRenderer.transform.DOScale(jumpStretchScale, jumpStretchDuration).SetEase(Ease.OutQuint);
     }
 
     private void AddtionalGravity()
@@ -99,7 +104,8 @@ public class Player : MonoBehaviour
         animator.SetBool("IsMoving", rb.velocity.magnitude > 0.1f);
         animator.SetBool("IsJumping", rb.velocity.y > 0.1f);
 
-        spriteRenderer.flipX = rb.velocity.x < 0;
+        if(rb.velocity != Vector2.zero)
+            spriteRenderer.flipX = rb.velocity.x < 0;
     }
 
     private bool CheckIfOnGround()
@@ -109,8 +115,8 @@ public class Player : MonoBehaviour
         if(grounded && lastFrameIsGrounded == false) //pierwsza klatka na ziemi
         {
             Debug.Log("First Frame On ground");
-            transform.DOScale(jumpSqueezeScale, jumpSqueezeDuration).SetEase(Ease.OutQuint)
-                .OnComplete(() => transform.DOScale(1f, 0.15f)).SetEase(Ease.OutQuint);
+            spriteRenderer.transform.DOScale(jumpSqueezeScale, jumpSqueezeDuration).SetEase(Ease.OutQuint)
+                .OnComplete(() => spriteRenderer.transform.DOScale(1f, 0.15f)).SetEase(Ease.OutQuint);
         }
         else if(grounded == false && lastFrameIsGrounded) //pierwsza klatka w powietrzu
         {

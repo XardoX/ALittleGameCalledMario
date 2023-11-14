@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private UIManager uIManager;
 
+    private int coins;
+
     private void Awake()
     {
         if (Instance == null)
@@ -26,6 +28,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+    }
+
+    private void Start()
+    {
+        Time.timeScale = 1f;
+        coins = 0;
+        uIManager.DisplayCoinsCount(coins);
+
     }
 
     public void RespawnPlayer()
@@ -43,11 +53,23 @@ public class GameManager : MonoBehaviour
 
     public void ResetLevel()
     {
+        Time.timeScale = 0f;
+        uIManager.ShowGameOverWindow();
+    }
+
+    public void RestartGame()
+    {
         SceneManager.LoadSceneAsync("Main");
     }
 
     public void SetSpawnpoint(Transform spawnPoint)
     {
         this.spawnPoint = spawnPoint;
+    }
+
+    public void CollectCoin()
+    {
+        coins++;
+        uIManager.DisplayCoinsCount(coins);
     }
 }
