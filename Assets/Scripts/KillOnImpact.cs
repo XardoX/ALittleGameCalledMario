@@ -8,7 +8,6 @@ public class KillOnImpact : MonoBehaviour
     {
         if(collision.collider.CompareTag("Player"))
         {
-            Debug.Log(gameObject.name);
             GameManager.Instance.RespawnPlayer();
         }
     }

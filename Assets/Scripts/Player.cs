@@ -46,7 +46,8 @@ public class Player : MonoBehaviour
 
     private float inputX;
 
-    // Update is called once per frame
+    public int direction => spriteRenderer.flipX ? -1 : 1;
+
     void Update()
     {
         isGrounded = CheckIfOnGround();
@@ -72,7 +73,6 @@ public class Player : MonoBehaviour
         if(!Physics2D.CircleCast(transform.position + Vector3.up *  0.5f, .5f, new Vector2( inputX, 0f ), 0.25f, groundMask)) //gracz nie dotyka ściany 
         {
                 rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
-
         }
 
         AddtionalGravity();

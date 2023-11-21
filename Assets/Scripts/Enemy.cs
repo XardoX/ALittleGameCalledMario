@@ -16,6 +16,11 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private Vector3 moveDirection = Vector2.right;
 
+    public void KillEnemy()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void Awake()
     {
         FlipSprite();
@@ -43,7 +48,7 @@ public class Enemy : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            gameObject.SetActive(false);
+            KillEnemy();
         }
     }
 }
