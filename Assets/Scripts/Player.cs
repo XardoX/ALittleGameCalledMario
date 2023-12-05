@@ -88,6 +88,7 @@ public class Player : MonoBehaviour
         rb.AddForce(transform.up * jumpPower, ForceMode2D.Impulse);
         jumpParticle.Play();
         spriteRenderer.transform.DOScale(jumpStretchScale, jumpStretchDuration).SetEase(Ease.OutQuint);
+        SoundManager.OnJump();
     }
 
     private void AddtionalGravity()
@@ -117,6 +118,7 @@ public class Player : MonoBehaviour
             Debug.Log("First Frame On ground");
             spriteRenderer.transform.DOScale(jumpSqueezeScale, jumpSqueezeDuration).SetEase(Ease.OutQuint)
                 .OnComplete(() => spriteRenderer.transform.DOScale(1f, 0.15f)).SetEase(Ease.OutQuint);
+            SoundManager.OnLand();
         }
         else if(grounded == false && lastFrameIsGrounded) //pierwsza klatka w powietrzu
         {

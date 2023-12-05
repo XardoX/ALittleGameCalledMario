@@ -32,5 +32,6 @@ public class FireMario : MonoBehaviour
         var newFireball = Instantiate(fireballPrefab, spawnPosition, Quaternion.identity);
 
         newFireball.Shoot(shootDirection * player.direction);
+        SoundManager.OnFireBall();
     }
 }
