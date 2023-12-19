@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
 {
     public int health = 3;
 
+    [Header("References")]
+
     [SerializeField]
     private Rigidbody2D rb;
 
@@ -19,28 +21,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private ParticleSystem jumpParticle;
 
-    [SerializeField]
-    private float moveSpeed = 5f, 
-        airSpeed = 2f,
-        jumpPower = 10f,
-        additionalGravity = 5f;
 
+    [Header("Settings")]
     [SerializeField]
-    private LayerMask groundMask;
+    private PlayerData data;
 
-    [SerializeField]
-    private float groundRayDistance = 0.2f;
-
+    [Header("Debug")]
     [SerializeField]
     private bool isGrounded, isFalling;
 
-    [SerializeField]
-    private Vector2 jumpStretchScale = new Vector3(0.9f, 1.3f, 1f),
-        jumpSqueezeScale = new Vector3(1.3f, 0.6f, 1f);
-
-    [SerializeField]
-    private float jumpStretchDuration = 0.2f,
-        jumpSqueezeDuration = 0.1f;
 
     private bool lastFrameIsGrounded;
 
@@ -68,9 +57,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var speed = isGrounded ? moveSpeed : airSpeed;
+        var speed = isGrounded ? data.MoveSpeed : data.AirSpeed;
         Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector2(inputX, 0f), Color.red);
-        if(!Physics2D.CircleCast(transform.position + Vector3.up *  0.5f, .5f, new Vector2( inputX, 0f ), 0.25f, groundMask)) //gracz nie dotyka ściany 
+        if(!Physics2D.CircleCast(transform.position + Vector3.up *  0.5f, .5f, new Vector2( inputX, 0f ), 0.25f, data.GroundMask)) //gracz nie dotyka ściany 
         {
                 rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
         }
@@ -85,9 +74,9 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        rb.AddForce(transform.up * jumpPower, ForceMode2D.Impulse);
+        rb.AddForce(transform.up * data.JumpPower, ForceMode2D.Impulse);
         jumpParticle.Play();
-        spriteRenderer.transform.DOScale(jumpStretchScale, jumpStretchDuration).SetEase(Ease.OutQuint);
+        spriteRenderer.transform.DOScale(data.JumpStretchScale, data.JumpStretchDuration).SetEase(Ease.OutQuint);
         SoundManager.OnJump();
     }
 
@@ -95,7 +84,7 @@ public class Player : MonoBehaviour
     {
         if(isFalling)
         {
-            rb.AddForce(Vector2.down * additionalGravity);
+            rb.AddForce(Vector2.down * data.AdditionalGravity);
         }
     }
 
@@ -111,12 +100,12 @@ public class Player : MonoBehaviour
 
     private bool CheckIfOnGround()
     {
-        var grounded = Physics2D.Raycast(transform.position - Vector3.up, Vector3.down, groundRayDistance, groundMask);
+        var grounded = Physics2D.Raycast(transform.position - Vector3.up, Vector3.down, data.GroundRayDistance, data.GroundMask);
 
         if(grounded && lastFrameIsGrounded == false) //pierwsza klatka na ziemi
         {
             Debug.Log("First Frame On ground");
-            spriteRenderer.transform.DOScale(jumpSqueezeScale, jumpSqueezeDuration).SetEase(Ease.OutQuint)
+            spriteRenderer.transform.DOScale(data.JumpSqueezeScale, data.JumpSqueezeDuration).SetEase(Ease.OutQuint)
                 .OnComplete(() => spriteRenderer.transform.DOScale(1f, 0.15f)).SetEase(Ease.OutQuint);
             SoundManager.OnLand();
         }
