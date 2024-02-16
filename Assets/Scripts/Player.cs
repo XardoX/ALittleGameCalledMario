@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -43,15 +44,8 @@ public class Player : MonoBehaviour
         isFalling = CheckIfIsFalling();
 
 
-
-        if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            Jump();
-        }
-
-        inputX = Input.GetAxis("Horizontal");
-
         SetGraphics();
+
     }
 
 
@@ -61,7 +55,7 @@ public class Player : MonoBehaviour
         Debug.DrawRay(transform.position + Vector3.up * 0.5f, new Vector2(inputX, 0f), Color.red);
         if(!Physics2D.CircleCast(transform.position + Vector3.up *  0.5f, .5f, new Vector2( inputX, 0f ), 0.25f, data.GroundMask)) //gracz nie dotyka ściany 
         {
-                rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
+            rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
         }
 
         AddtionalGravity();
@@ -122,4 +116,17 @@ public class Player : MonoBehaviour
         return rb.velocity.y < -0.2f;
     }
 
+
+    private void OnJump(InputValue value)
+    {
+        if(value.isPressed && isGrounded)
+        {
+            Jump();
+        }
+    }
+
+    private void OnMove(InputValue value)
+    {
+        inputX = value.Get<float>();
+    }
 }

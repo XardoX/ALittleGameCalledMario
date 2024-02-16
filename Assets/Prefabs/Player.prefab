@@ -4902,6 +4902,7 @@ GameObject:
   - component: {fileID: 9200390286475521805}
   - component: {fileID: 8540078101765325832}
   - component: {fileID: 7102595804778963585}
+  - component: {fileID: 4379131162459011825}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5005,20 +5006,9 @@ MonoBehaviour:
   animator: {fileID: 8540078101765325832}
   spriteRenderer: {fileID: 8849773811017350602}
   jumpParticle: {fileID: 5760309472287945233}
-  moveSpeed: 10
-  airSpeed: 8
-  jumpPower: 200
-  additionalGravity: 15
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
-  groundRayDistance: 0.05
+  data: {fileID: 0}
   isGrounded: 0
   isFalling: 0
-  jumpStretchScale: {x: 0.9, y: 1.3}
-  jumpSqueezeScale: {x: 1.3, y: 0.6}
-  jumpStretchDuration: 0.2
-  jumpSqueezeDuration: 0.1
 --- !u!95 &8540078101765325832
 Animator:
   serializedVersion: 5
@@ -5055,6 +5045,36 @@ MonoBehaviour:
   fireballPrefab: {fileID: 687297282237195784, guid: 350abdd9f0f439948a9b1391c9fac8c9, type: 3}
   spawnOffset: {x: 1, y: 1}
   shootDirection: {x: 1, y: -0.5}
+--- !u!114 &4379131162459011825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3024231970343082538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 1a2bb159d3006a0459e76305779d486c, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &8528186591975719505
 GameObject:
   m_ObjectHideFlags: 0
