@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2721911547406032490
+--- !u!114 &-7234041530808918940
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Test
-  m_Shader: {fileID: -6465566751694194690, guid: ec0f91fdab577084da3a89fe465547fe, type: 3}
+  m_Name: Gradient
+  m_Shader: {fileID: -6465566751694194690, guid: c39b70b0315fddd4aa4f223818f909bd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -50,12 +50,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ColorShiftSpeed: 0.1
-    - _FresnelPower: 3.72
+    - _GradientScale: 6.1
+    - _Offset: 0.6
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _FresnelColor: {r: 1, g: 0, b: 0, a: 0.4392157}
-    - _MainColor: {r: 0, g: 1, b: 0.9393878, a: 0}
-    - _RimColor: {r: 1, g: 1, b: 1, a: 0}
+    - _MainColor: {r: 1, g: 0, b: 0, a: 0}
+    - _SecondColor: {r: 1, g: 0.46681958, b: 0, a: 0}
   m_BuildTextureStacks: []
